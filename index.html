@@ -45,12 +45,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#submitQuestion').on('click', function() {
-            var patientComplaints = $('#userQuestion').val();
-            if (patientComplaints.trim() !== "") {
-                askOpenAI(patientComplaints);
+        $('#search-button').on('click', function() {
+            var clothesSelection = $('#keyword-input').val();
+            if (clothesSelection.trim() !== "") {
+                askOpenAI(clothesSelection);
             } else {
-                alert("Please input the patient's complaints first.");
+                alert("Please input Keywords.");
             }
         });
     });

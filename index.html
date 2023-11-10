@@ -42,23 +42,54 @@
 </div>
 <div id="results-container"></div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.getElementById('search-button').addEventListener('click', function() {
-  const keyword = document.getElementById('keyword-input').value;
-  recommendClothes(keyword);
-});
+    $(document).ready(function() {
+        $('#submitQuestion').on('click', function() {
+            var patientComplaints = $('#userQuestion').val();
+            if (patientComplaints.trim() !== "") {
+                askOpenAI(patientComplaints);
+            } else {
+                alert("Please input the patient's complaints first.");
+            }
+        });
+    });
 
-function recommendClothes(keyword) {
-  // Placeholder for an API call to OpenAI
-  // In practice, you would make an AJAX call to your server here,
-  // which would then call the OpenAI API with your secret key
+    function askOpenAI(complaints) {
+        var api_url = 'https://api.openai.com/v1/chat/completions';
 
-  // Placeholder for API response
-  const recommendations = `Recommended clothes for "${keyword}": ...`; // This should be replaced with actual API response handling
+        var messages = [
+            {
+                "role": "user",
+                "content": "You are a skincare expert AI to assist dermatologists. You provide the dermatologist with the best knowledge and analyses based on the patient's statement the dermatologist has shared. It doesn't matter if your analysis is incomplete because it is just a reference. The dermatologist will properly diagnose referring to your analysis as a reference. Generate response in the same language of PATIENT COMPLAINT. Provide responses in the following format: 1. Possible Causes(Max three, bullet points)<br> 2. Immediate actions or treatments(if needed) <br> 3. Long-term strategy for skin care <br> 4. One follow-up question if more information is needed."
+            },
+            {
+                "role": "user",
+                "content": "PATIENT COMPLAINTS: " + complaints
+            }
+        ];
 
-  // Display the recommendations
-  document.getElementById('results-container').innerText = recommendations;
-}
+        $.ajax({
+            url: api_url,
+            type: "POST",
+            headers: {
+                "Authorization": "Bearer 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", // Replace YOUR_SECRET_KEY with the actual key
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify({
+                "model": "gpt-3.5-turbo",
+                "messages": messages
+            }),
+            success: function(response) {
+                var aiResponse = response.choices[0].message.content.trim();
+                $('#aiResponse').html(aiResponse);
+            },
+            error: function(err) {
+                $('#aiResponse').text("Sorry, there was an error processing the complaint. Please try again later.");
+            }
+        });
+    }
 </script>
+
 </body>
 </html>

@@ -46,16 +46,16 @@
 <script>
     $(document).ready(function() {
         $('#search-button').on('click', function() {
-            var clothesSelection = $('#keyword-input').val();
-            if (clothesSelection.trim() !== "") {
-                askOpenAI(clothesSelection);
+            var keyword = $('#keyword-input').val();
+            if (keyword.trim() !== "") {
+                askOpenAI(keyword);
             } else {
                 alert("Please input Keywords.");
             }
         });
     });
 
-    function askOpenAI(complaints) {
+    function askOpenAI(keyword) {
         var api_url = 'https://api.openai.com/v1/chat/completions';
 
         var messages = [
@@ -73,7 +73,7 @@
             url: api_url,
             type: "POST",
             headers: {
-                "Authorization": "Bearer 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", // Replace YOUR_SECRET_KEY with the actual key
+                "Authorization": "Bearer YOUR_SECRET_KEY", // Replace YOUR_SECRET_KEY with the actual key
                 "Content-Type": "application/json"
             },
             data: JSON.stringify({
@@ -82,10 +82,10 @@
             }),
             success: function(response) {
                 var aiResponse = response.choices[0].message.content.trim();
-                $('#aiResponse').html(aiResponse);
+                $('#results-container').html(aiResponse);
             },
             error: function(err) {
-                $('#aiResponse').text("Sorry, there was an error processing the complaint. Please try again later.");
+                $('#results-container').text("Sorry, there was an error processing your request. Please try again later.");
             }
         });
     }

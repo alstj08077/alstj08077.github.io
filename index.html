@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clothes Recommender</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  #search-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  #keyword-input {
+    width: 300px;
+    height: 25px;
+    font-size: 16px;
+  }
+
+  #search-button {
+    height: 31px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #results-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div id="search-container">
+    <input type="text" id="keyword-input" placeholder="Enter keywords (e.g., 'summer casual')">
+    <button id="search-button">Recommend Clothes</button>
+</div>
+<div id="results-container"></div>
+
+<script>
+document.getElementById('search-button').addEventListener('click', function() {
+  const keyword = document.getElementById('keyword-input').value;
+  recommendClothes(keyword);
+});
+
+function recommendClothes(keyword) {
+  // Placeholder for an API call to OpenAI
+  // In practice, you would make an AJAX call to your server here,
+  // which would then call the OpenAI API with your secret key
+
+  // Placeholder for API response
+  const recommendations = `Recommended clothes for "${keyword}": ...`; // This should be replaced with actual API response handling
+
+  // Display the recommendations
+  document.getElementById('results-container').innerText = recommendations;
+}
+</script>
+</body>
+</html>
